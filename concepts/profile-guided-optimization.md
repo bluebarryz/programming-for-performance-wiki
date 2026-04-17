@@ -31,6 +31,9 @@ In benchmarks (Spec2K), POGO achieved speed gains of 6.6% to 36.9% depending on 
 
 ## Examples
 
+### [[devirtualization]]
+See associated page
+
 ### Branch layout: hot path gets the fall-through
 
 ```c

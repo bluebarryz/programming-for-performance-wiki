@@ -14,13 +14,20 @@ prerequisites:
 
 Also known as **loop hoisting**, this optimization moves calculations that don't change across iterations out of the loop.
 
-Example:
+## Example
+
 ```rust
-// Before                      // After
-for i in 0..100 {              s = x * y;
-    s = x * y;                 for i in 0..100 {
-    a[i] = s * i;                  a[i] = s * i;
-}                              }
+// Before: x*y recomputed every iteration even though x and y don't change
+for i in 0..100 {
+    s = x * y;
+    a[i] = s * i;
+}
+
+// After: x*y hoisted out, computed once
+s = x * y;
+for i in 0..100 {
+    a[i] = s * i;
+}
 ```
 
 This reduces the work done per iteration. It is safe when the hoisted expression has no side effects and its operands don't change within the loop.
