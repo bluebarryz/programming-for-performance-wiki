@@ -1,0 +1,1 @@
+A wiki designed for Obsidian
