@@ -12,7 +12,7 @@ prerequisites:
 
 # CUDA Blocks and Grids
 
-CUDA organizes parallel work into a two-level hierarchy: a grid of blocks, where each block contains multiple threads. Blocks can share memory locally but must execute independently, allowing the GPU to schedule them in any order.
+CUDA organizes parallel work into a two-level hierarchy: a grid of blocks, where each [[cuda-block]] contains multiple threads. Blocks can share memory locally but must execute independently, allowing the GPU to schedule them in any order.
 
 Key sizing guidance: the number of threads per block should be a multiple of 32 (the [[gpu-warps|warp]] size), with a maximum of 512 or 1024 depending on the device. Common choices are 128 or 256 threads per block. The grid size is then the total number of work-items divided by the threads per block.
 
@@ -30,6 +30,7 @@ In the N-body example, the naive approach of one work-item per block (grid size 
 ## Related Concepts
 
 - [[gpu-warps]]
+- [[cuda-block]]
 - [[work-items-and-index-space]]
 - [[cuda-kernel-launch]]
 - [[cuda-grid-sizing]]

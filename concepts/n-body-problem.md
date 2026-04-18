@@ -59,7 +59,54 @@ N-body illustrates several CUDA concepts:
 - **Vector types:** `float4` packs (x, y, z, mass) for a body, `float3` packs the acceleration — no need for custom structs.
 - **`__device__` vs. `__global__`:** `body_body_interaction` is `__device__` (GPU-internal helper); `calculate_forces` is `__global__` (entry point callable from host). Global functions cannot call other global functions.
 - **`extern "C"`:** disables name mangling so the host can find the kernel by name.
-- **Dimensionality choice:** N-body is used as a counter-example for 2-D index spaces. Treating each (i, j) pair as a work-item sounds like more parallelism, but the per-pair work is too tiny to justify the overhead — a 1-D index over bodies is the right choice here. For kernels with heavier per-pair work, 2-D could pay off.
+
+### CPU-Equivalent Code
+
+The GPU kernel makes the outer loop implicit — every work-item runs with a distinct `blockIdx.x`. On the CPU the same logic is an explicit nested loop:
+
+```c
+void calculate_forces(const float4* positions, float3* accelerations, int num_points) {
+    for (int j = 0; j < num_points; j++) {
+        float4 current = positions[j];
+        float3 acc = accelerations[j];
+        for (int i = 0; i < num_points; i++) {
+            body_body_interaction(current, positions[i], &acc);
+        }
+        accelerations[j] = acc;
+    }
+}
+```
+
+The GPU version removes the outer `j` loop; each thread is one iteration of it, indexed by `blockIdx.x`.
+
+### 1-D vs. 2-D Index Space
+
+The kernel above uses a **1-D index space** of size **N**: one work-item per body, and each work-item loops over all N other bodies. An alternative is a **2-D index space** where each (i, j) pair is its own work-item:
+
+```c
+extern "C" __global__ void calculate_forces_2d(const float4* positions, float3* accelerations, int num_points) {
+    int i = blockIdx.x;
+    int j = blockIdx.y;
+    if (i >= num_points || j >= num_points) return;
+    float3 contribution = {0, 0, 0};
+    body_body_interaction(positions[j], positions[i], &contribution);
+    atomicAdd(&accelerations[j].x, contribution.x);
+    atomicAdd(&accelerations[j].y, contribution.y);
+    atomicAdd(&accelerations[j].z, contribution.z);
+}
+```
+
+Work-item count:
+- **1-D:** N work-items, each doing N pairwise interactions sequentially.
+- **2-D:** N² work-items, each doing one pairwise interaction.
+
+Why 1-D wins for N-body: `body_body_interaction` is tiny — a handful of subtractions, multiplications, and one `sqrtf`. The per-work-item overhead (thread dispatch, register setup, accumulating into `accelerations[j]` via `atomicAdd` to avoid races across j-rows) dwarfs the actual math. You get N× more parallelism on paper but lose it to overhead and atomic contention.
+
+### When 2-D Beats 1-D
+
+2-D pays off when the per-pair work is **large enough to amortize the launch overhead**. The lecture offers password brute-forcing as an example: to brute-force a 6-character password, a 1-D approach picks one starting character in host code and has each kernel loop over the remaining 5 positions. A 2-D (or 3-D) approach generates starting possibilities for the first 2–3 positions as a matrix and loops over the rest inside the kernel. Each work-item still does meaningful work (checking many candidate passwords), so the extra parallelism is a net win — until the host can no longer fit all starting possibilities in memory.
+
+General rule: flatten to 1-D when per-item work is tiny; expand dimensionality only when each work-item still has enough work to be worth scheduling.
 
 ## L22 — GPU Programming Continued
 

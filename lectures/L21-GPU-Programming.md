@@ -31,6 +31,7 @@ This lecture introduces heterogeneous programming using GPUs, specifically NVIDI
 - [[data-parallelism]]
 - [[work-items-and-index-space]]
 - [[cuda-blocks-and-grids]]
+- [[cuda-block]]
 - [[gpu-warps]]
 - [[gpu-memory-hierarchy]]
 - [[gpu-shared-memory]]

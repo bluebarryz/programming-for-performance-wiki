@@ -20,7 +20,7 @@ The warp model has important consequences for [[gpu-branching]]: all threads in 
 Similarly, if threads in a warp have loops of different lengths, the warp waits for the maximum number of iterations across all threads.
 
 Q: *Do all threads in the same warp have to come from the same block?*
-A: Yes. Warps are formed by partitioning a [[block]]'s threads into consecutive groups of 32 (threads 0–31 → warp 0, 32–63 → warp 1, etc.). <u>A warp never spans block boundaries</u>.
+A: Yes. Warps are formed by partitioning a [[cuda-block]]'s threads into consecutive groups of 32 (threads 0–31 → warp 0, 32–63 → warp 1, etc.). <u>A warp never spans block boundaries</u>.
 - If a block's thread count isn't a multiple of 32, the last warp has idle lanes. E.g. 100 threads/block → 4 warps, with 28 active + 4 idle in the last one.
 - That's why the L22 guidance says threads per block should be a multiple of 32 — otherwise every block pays a partial-warp tax.
 - Blocks are the unit that shares `__shared__` memory and synchronizes via `__syncthreads()`, so it wouldn't make sense for a warp to straddle two blocks that can't coordinate.
@@ -56,5 +56,6 @@ Takeaway: threads per block should always be a multiple of 32, capped at 512–1
 ## Related Concepts
 
 - [[cuda-blocks-and-grids]]
+- [[cuda-block]]
 - [[gpu-branching]]
 - [[simt]]
