@@ -56,13 +56,13 @@ These lectures have not appeared on any of the three exams:
 
 ## Consistently Tested Topics (appeared on all 3 exams)
 
-| Topic | Lectures | W23 | W24 | W25 |
-|-------|----------|-----|-----|-----|
-| Amdahl's Law / speedup | L01, L09 | Q1c (3) | Q1a,e (6) | Q1c (5) |
-| Rust ownership & borrowing | L02, L03 | Q4 (10), Q3 (10) | Q1c,d,f (9) | Q1a,b (10), Q4.4 |
-| Reduced-resource computation | L14 | Q1b (3) | Q1c (3) | Q1d,f,i (15), Q2.4 (5) |
-| Profiling | L27, L28 | Q1e,h (6), Q6 (20) | Q1i (3), Q3 (13) | Q2.5A (5) |
-| Compiler optimizations | L06, L18 | Q1j (3), Q2 (20) | Q1h (3), Q3.2 (8) | Q4 (25) |
+| Topic                        | Lectures | W23                | W24               | W25                    |
+| ---------------------------- | -------- | ------------------ | ----------------- | ---------------------- |
+| Amdahl's Law / speedup       | L01, L09 | Q1c (3)            | Q1a,e (6)         | Q1c (5)                |
+| Rust ownership & borrowing   | L02, L03 | Q4 (10), Q3 (10)   | Q1c,d,f (9)       | Q1a,b (10), Q4.4       |
+| Reduced-resource computation | L14      | Q1b (3)            | Q1c (3)           | Q1d,f,i (15), Q2.4 (5) |
+| Profiling                    | L27, L28 | Q1e,h (6), Q6 (20) | Q1i (3), Q3 (13)  | Q2.5A (5)              |
+| Compiler optimizations       | L06, L18 | Q1j (3), Q2 (20)   | Q1h (3), Q3.2 (8) | Q4 (25)                |
 
 ## Tested on 2 of 3 Exams
 

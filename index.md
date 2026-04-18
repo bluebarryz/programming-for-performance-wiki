@@ -295,6 +295,7 @@ tags:
 - [[cuda]] — NVIDIA's GPU programming platform
 - [[opencl]] — Cross-vendor GPU standard
 - [[cuda-kernel]] — Function running on GPU threads
+- [[block]] — Thread group sharing memory and synchronization
 - [[cuda-blocks-and-grids]] — Thread organization hierarchy
 - [[cuda-grid-sizing]] — Choosing blocks and threads
 - [[cuda-kernel-launch]] — Host-side kernel invocation

@@ -9,7 +9,7 @@ lectures:
 prerequisites:
   - "[[bottleneck-analysis]]"
 ---
-
+			
 # CPU Load Average
 
 The `top` command on Linux reports one-minute, five-minute, and fifteen-minute load averages. These indicate how many processes are waiting for CPU time. The bridge/traffic analogy helps interpret them for a single core:

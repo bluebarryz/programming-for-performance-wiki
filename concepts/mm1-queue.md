@@ -15,7 +15,7 @@ prerequisites:
 
 An M/M/1 queue has Markov (Poisson) arrivals, exponential service times, and a single server. It is the simplest and most commonly analyzed queueing model.
 
-Key formulas (where rho = lambda * s):
+Key formulas (where $\rho = \lambda * s$):
 
 - **Average completion time**: T_q = s / (1 - rho)
 - **Average queue length** (waiting only): W = rho^2 / (1 - rho)
